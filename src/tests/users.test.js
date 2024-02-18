@@ -145,3 +145,17 @@ describe("PUT /api/users/:id", () => {
     expect(response.status).toEqual(404);
   });
 });
+
+describe("DELETE /api/users/:id", () => {
+  it("should delete a user", async () => {
+    const response = await request(app).delete("/api/users/1");
+
+    expect(response.status).toEqual(204);
+  });
+
+  it("should return 404 if user does not exist", async () => {
+    const response = await request(app).delete("/api/users/999");
+
+    expect(response.status).toEqual(404);
+  });
+});

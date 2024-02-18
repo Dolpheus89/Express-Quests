@@ -3,7 +3,6 @@ const request = require("supertest");
 const app = require("../app");
 
 const database = require("../../database");
-const crypto = require("node:crypto");
 
 afterAll(() => database.end());
 
@@ -145,6 +144,20 @@ describe("PUT /api/movies/:id", () => {
     };
 
     const response = await request(app).put("/api/movies/0").send(newMovie);
+
+    expect(response.status).toEqual(404);
+  });
+});
+
+describe("DELETE /api/movies/:id", () => {
+  it("should delete a movie", async () => {
+    const response = await request(app).delete("/api/movies/1");
+
+    expect(response.status).toEqual(204);
+  });
+
+  it("should return 404 if movie does not exist", async () => {
+    const response = await request(app).delete("/api/movies/999");
 
     expect(response.status).toEqual(404);
   });
