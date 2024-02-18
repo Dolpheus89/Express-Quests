@@ -1,6 +1,6 @@
 const request = require("supertest");
-const app = require("../src/app");
-const database = require("../database");
+const app = require("../app");
+const database = require("../../database");
 const crypto = require("crypto"); // Ajout de cette ligne
 
 afterAll(() => database.end());
@@ -65,7 +65,7 @@ describe("POST /api/users", () => {
       .post("/api/users")
       .send(userWithMissingProps);
 
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(422);
   });
 });
 
@@ -95,7 +95,7 @@ describe("PUT /api/users/:id", () => {
 
     const updatedUser = {
       firstname: "Jean",
-      lastname: "Bon",
+      lastname: "Martin",
       email: `${crypto.randomUUID()}@wild.co`,
       city: "Lille",
       language: "Caribou",
@@ -128,7 +128,7 @@ describe("PUT /api/users/:id", () => {
       .put(`/api/users/1`)
       .send(userWithMissingProps);
 
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(422);
   });
 
   it("should return no user", async () => {

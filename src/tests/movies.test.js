@@ -1,8 +1,8 @@
 const request = require("supertest");
 
-const app = require("../src/app");
+const app = require("../app");
 
-const database = require("../database");
+const database = require("../../database");
 const crypto = require("node:crypto");
 
 afterAll(() => database.end());
@@ -69,7 +69,7 @@ describe("POST /api/movies", () => {
       .post("/api/movies")
       .send(movieWithMissingProps);
 
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(422);
   });
 });
 
@@ -132,7 +132,7 @@ describe("PUT /api/movies/:id", () => {
 
     const response = await request(app).put(`/api/movies/1`).send(updatedMovie);
 
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(422);
   });
 
   it("should return no movie", async () => {
